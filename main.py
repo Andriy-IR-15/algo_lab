@@ -1,26 +1,48 @@
-import math
-
-def minEatingSpeed(piles, H):
-    def canEatAllBananas(piles, K, H):
-        return sum(math.ceil(pile / K) for pile in piles) <= H
-
-    left, right = 1, max(piles)
-
-    while left < right:
-        mid = (left + right) // 2
-        if canEatAllBananas(piles, mid, H):
-            right = mid
-        else:
-            left = mid + 1
-
-    return left
+class BinaryTree:
+    def __init__(self, value: int):
+        self.value = value
+        self.left = None
+        self.right = None
 
 
-piles1, H1 = [3, 6, 7, 11], 8
-print(minEatingSpeed(piles1, H1))
+def invert_binary_tree(tree: BinaryTree) -> BinaryTree:
+    if tree is None:
+        return None
 
-piles2, H2 = [30, 11, 23, 4, 20], 5
-print(minEatingSpeed(piles2, H2))
+    stack = [tree]
 
-piles3, H3 = [30, 11, 23, 4, 20], 6
-print(minEatingSpeed(piles3, H3))
+    while stack:
+        current = stack.pop(0)
+        current.left, current.right = current.right, current.left
+
+        if current.left:
+            stack.append(current.left)
+        if current.right:
+            stack.append(current.right)
+
+        return tree
+
+root = BinaryTree(1)
+root.left = BinaryTree(2)
+root.right = BinaryTree(3)
+root.left.left = BinaryTree(4)
+root.left.right = BinaryTree(5)
+root.right.left = BinaryTree(6)
+root.right.right = BinaryTree(7)
+
+new_root = invert_binary_tree(root)
+
+
+def print_tree(node, prefix=""):
+    if node is not None:
+        print(prefix + str(node.value))
+        stack = [(node.left, prefix + "|--"), (node.right, prefix + "--")]
+        while stack:
+            current, current_prefix = stack.pop()
+            if current:
+                print(current_prefix + str(current.value))
+                stack.append((current.left, current_prefix + "|--"))
+                stack.append((current.right, current_prefix + "--"))
+
+
+print_tree(new_root)

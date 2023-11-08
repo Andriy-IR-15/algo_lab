@@ -1,24 +1,32 @@
 import unittest
 
-from main import minEatingSpeed
+from main import BinaryTree, invert_binary_tree
 
 
-class TestMinEatingSpeed(unittest.TestCase):
+class TestBinaryTreeInversion(unittest.TestCase):
+    def test_invert_binary_tree(self):
+        root = BinaryTree(1)
+        root.left = BinaryTree(2)
+        root.right = BinaryTree(3)
+        root.left.left = BinaryTree(4)
+        root.left.right = BinaryTree(5)
+        root.right.left = BinaryTree(6)
+        root.right.right = BinaryTree(7)
 
-    def test_case1(self):
-        piles1 = [3, 6, 7, 11]
-        H1 = 8
-        self.assertEqual(minEatingSpeed(piles1, H1), 4)
+        new_root = invert_binary_tree(root)
 
-    def test_case2(self):
-        piles2 = [30, 11, 23, 4, 20]
-        H2 = 5
-        self.assertEqual(minEatingSpeed(piles2, H2), 30)
+        self.assertEqual(new_root.value, 1)
+        self.assertEqual(new_root.left.value, 3)
+        self.assertEqual(new_root.right.value, 2)
+        self.assertEqual(new_root.left.left.value, 7)
+        self.assertEqual(new_root.left.right.value, 6)
+        self.assertEqual(new_root.right.left.value, 5)
+        self.assertEqual(new_root.right.right.value, 4)
 
-    def test_case3(self):
-        piles3 = [30, 11, 23, 4, 20]
-        H3 = 6
-        self.assertEqual(minEatingSpeed(piles3, H3), 23)
+    def test_invert_empty_tree(self):
+        result = invert_binary_tree(None)
+        self.assertIsNone(result)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
