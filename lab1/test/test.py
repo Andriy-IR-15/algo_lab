@@ -1,22 +1,34 @@
 import unittest
 
-# Імпортуємо функцію find_kth_largest з вашого основного модуля (main.py).
-from main import find_kth_largest
+from src.lab1 import find_kth_largest
 
-# Створюємо клас для тестування функції find_kth_largest.
-class TestKthLargest(unittest.TestCase):
 
-    # Тест для перевірки функції find_kth_largest для коректного виконання.
-    def test_kth_largest(self):
-        arr = [15, 7, 22, 9, 36, 2, 42, 18]
-        self.assertEqual(find_kth_largest(arr, 1), (42, 6))
-        # Інші тести можна додавати аналогічним чином.
+class Test(unittest.TestCase):
+    def test_find_kth_largest(self):
+        input_array = [15, 7, 22, 9, 36, 2, 42, 18]
+        k_value = 3
+        result, index = find_kth_largest(input_array, k_value)
+        self.assertEqual(result, 9)
+        self.assertEqual(index, 3)
 
-    # Тест для перевірки обробки некоректного значення k.
-    def test_invalid_k(self):
-        arr = [15, 7, 22, 9, 36, 2, 42, 18]
-        self.assertEqual(find_kth_largest(arr, 0), (None, None))
-        # Інші тести можна додавати аналогічним чином.
+        input_array = []
+        k_value = 2
+        result, index = find_kth_largest(input_array, k_value)
+        self.assertIsNone(result)
+        self.assertIsNone(index)
+
+        input_array = [15, 7, 22, 9, 36, 2, 42, 18]
+        k_value = 0
+        result, index = find_kth_largest(input_array, k_value)
+        self.assertIsNone(result)
+        self.assertIsNone(index)
+
+        input_array = [15, 7, 22, 9, 36, 2, 42, 18]
+        k_value = 9
+        result, index = find_kth_largest(input_array, k_value)
+        self.assertIsNone(result)
+        self.assertIsNone(index)
+
 
 if __name__ == '__main__':
     unittest.main()
